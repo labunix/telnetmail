@@ -9,10 +9,10 @@ if [ "x${PATH}" == "x" ];then
   echo "ERROR:empty PATH"
   exit 1
 fi
-echo $PATH | sed s/":"/"\n"/g | grep "^/sbin\$" || \
-  export PATH=/sbin:${PATH}
-echo $PATH | sed s/":"/"\n"/g | grep "^/usr/sbin\$" || \
-  export PATH=/usr/sbin:${PATH}
+#echo $PATH | sed s/":"/"\n"/g | grep "^/sbin\$" || \
+#  export PATH=/sbin:${PATH}
+#echo $PATH | sed s/":"/"\n"/g | grep "^/usr/sbin\$" || \
+#  export PATH=/usr/sbin:${PATH}
 
 FDATE=`date '+%Y/%m/%d %H:%M'`
 RHOST=`hostname -s`
@@ -24,11 +24,12 @@ echo $FDATE | tee -a $0.log
 (sleep 1; echo "open ${RHOST} ${RPORT}";
  sleep 1; echo "user ${RUSER} ${RPASS}";
  sleep 1; echo "prompt"
+ sleep 1; echo "bin"
  sleep 1; echo "cd logs"
  sleep 1; echo "mput *"
  sleep 1; echo "bye"
  sleep 1; echo "quit"
- sleep 1; echo; ) | ftp -n -v | tee -a $0.log
+ sleep 1; echo; ) | /usr/bin/ftp -n -v | tee -a $0.log
 
 FLAG=$?
 unset FDATE
